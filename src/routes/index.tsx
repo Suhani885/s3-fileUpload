@@ -27,8 +27,8 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      <div className="">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50  gap-3">
+      <div className="flex flex-cols justify-center items-center">
         <FileUpload
           maxFiles={1}
           maxSize={5 * 1024 * 1024}
@@ -36,7 +36,7 @@ function Home() {
           value={files}
           onValueChange={setFiles}
           onFileReject={onFileReject}
-          // multiple
+          accept="image/*"
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -68,6 +68,7 @@ function Home() {
             ))}
           </FileUploadList>
         </FileUpload>
+        <Button>Upload</Button>
       </div>
     </div>
   );
