@@ -7,7 +7,7 @@
     "dev": "vite dev",
     "build": "vite build && tsc --noEmit",
     "start": "node .output/server/index.mjs",
-    "openapi-ts": "openapi-ts"
+    "generate-api": "openapi-ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
