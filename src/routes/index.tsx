@@ -12,7 +12,7 @@ import {
   FileUploadList,
   FileUploadTrigger,
 } from "../components/ui/file-upload";
-// import { toast } from "sonner";
+import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   component: Home,
 });
@@ -36,9 +36,9 @@ function Home() {
   );
 
   const onFileReject = React.useCallback((file: File, message: string) => {
-    // toast(message, {
-    //   description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
-    // });
+    toast.error(message, {
+      description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
+    });
   }, []);
 
   return (
@@ -83,7 +83,7 @@ function Home() {
             ))}
           </FileUploadList>
         </FileUpload>
-        <Button>Upload</Button>
+        {/* <Button>Upload</Button> */}
       </div>
     </div>
   );
