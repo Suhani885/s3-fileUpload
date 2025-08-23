@@ -25,16 +25,16 @@ function Home() {
       if (!file.type.startsWith("image/")) {
         return "Only image files are allowed";
       }
-      const MAX_SIZE = 5 * 1024 * 1024; 
+      const MAX_SIZE = 5 * 1024 * 1024;
       if (file.size > MAX_SIZE) {
         return `File size must be less than ${MAX_SIZE / (1024 * 1024)}MB`;
       }
- 
+
       return null;
     },
-    [files],
+    [files]
   );
- 
+
   const onFileReject = React.useCallback((file: File, message: string) => {
     // toast(message, {
     //   description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
@@ -42,16 +42,16 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      <div className="">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50  gap-3">
+      <div className="flex flex-cols justify-center items-center">
         <FileUpload
           value={files}
-      onValueChange={setFiles}
-      onFileValidate={onFileValidate}
-      onFileReject={onFileReject}
-      accept="image/*"
-      maxFiles={1}
-      className="w-full max-w-md"
+          onValueChange={setFiles}
+          onFileValidate={onFileValidate}
+          onFileReject={onFileReject}
+          accept="image/*"
+          maxFiles={1}
+          className="w-full max-w-md"
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -83,6 +83,7 @@ function Home() {
             ))}
           </FileUploadList>
         </FileUpload>
+        <Button>Upload</Button>
       </div>
     </div>
   );
