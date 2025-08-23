@@ -1,4 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { Upload, X } from "lucide-react";
+import * as React from "react";
 import { Button } from "../components/ui/button";
 import {
   FileUpload,
@@ -10,12 +12,10 @@ import {
   FileUploadList,
   FileUploadTrigger,
 } from "../components/ui/file-upload";
-import { Upload, X } from "lucide-react";
-import * as React from "react";
 // import { toast } from "sonner";
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute("/")({
   component: Home,
-})
+});
 
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
@@ -36,7 +36,7 @@ function Home() {
           value={files}
           onValueChange={setFiles}
           onFileReject={onFileReject}
-        // multiple
+          // multiple
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -70,5 +70,5 @@ function Home() {
         </FileUpload>
       </div>
     </div>
-  )
+  );
 }
