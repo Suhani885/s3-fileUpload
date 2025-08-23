@@ -30,13 +30,13 @@ function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
       <div className="">
         <FileUpload
-          maxFiles={2}
+          maxFiles={1}
           maxSize={5 * 1024 * 1024}
           className="w-full max-w-md"
           value={files}
           onValueChange={setFiles}
           onFileReject={onFileReject}
-          multiple
+          // multiple
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
