@@ -1,6 +1,5 @@
+const baseURL = 'http://localhost:8000'
 import { defineConfig } from '@hey-api/openapi-ts';
-import { baseURL } from '~/services/baseURL';
-
 export default defineConfig({
     input: `${baseURL}/openapi.yaml`,
     output: 'src/services/api',

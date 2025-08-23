@@ -20,6 +20,21 @@ export const Route = createFileRoute("/")({
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
 
+  const onFileValidate = React.useCallback(
+    (file: File): string | null => {
+      if (!file.type.startsWith("image/")) {
+        return "Only image files are allowed";
+      }
+      const MAX_SIZE = 5 * 1024 * 1024;
+      if (file.size > MAX_SIZE) {
+        return `File size must be less than ${MAX_SIZE / (1024 * 1024)}MB`;
+      }
+
+      return null;
+    },
+    [files]
+  );
+
   const onFileReject = React.useCallback((file: File, message: string) => {
     // toast(message, {
     //   description: `"${file.name.length > 20 ? `${file.name.slice(0, 20)}...` : file.name}" has been rejected`,
@@ -30,13 +45,13 @@ function Home() {
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50  gap-3">
       <div className="flex flex-cols justify-center items-center">
         <FileUpload
-          maxFiles={1}
-          maxSize={5 * 1024 * 1024}
-          className="w-full max-w-md"
           value={files}
           onValueChange={setFiles}
+          onFileValidate={onFileValidate}
           onFileReject={onFileReject}
           accept="image/*"
+          maxFiles={1}
+          className="w-full max-w-md"
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -45,7 +60,7 @@ function Home() {
               </div>
               <p className="font-medium text-sm">Drag & drop files here</p>
               <p className="text-muted-foreground text-xs">
-                Or click to browse (max 2 files, up to 5MB each)
+                Or click to browse (up to 5MB)
               </p>
             </div>
             <FileUploadTrigger asChild>
