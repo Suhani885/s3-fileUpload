@@ -1,7 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Upload, X } from "lucide-react";
 import * as React from "react";
 import { Button } from "../components/ui/button";
+import { urlLinkGenerateCreate } from "~/services/api";
+import { Scroller } from "~/components/ui/scroller";
+import axios from "axios";
 import {
   FileUpload,
   FileUploadDropzone,
@@ -11,12 +15,13 @@ import {
   FileUploadItemPreview,
   FileUploadList,
   FileUploadTrigger,
+  FileUploadProps
+
 } from "../components/ui/file-upload";
 import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   component: Home,
 });
-
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
 
@@ -29,7 +34,6 @@ function Home() {
       if (file.size > MAX_SIZE) {
         return `File size must be less than ${MAX_SIZE / (1024 * 1024)}MB`;
       }
-
       return null;
     },
     [files]
@@ -41,17 +45,48 @@ function Home() {
     });
   }, []);
 
+  const onUpload: NonNullable<FileUploadProps["onUpload"]> = React.useCallback(
+    async (files, { onProgress, onSuccess, onError }) => {
+
+      const data = await urlLinkGenerateCreate()
+      const url = data?.data?.url
+      if (url) {
+        const uploadResponse = await axios.put(url, files[0], {
+          headers: {
+            "Content-Type": files[0].type,
+          },
+        });
+
+
+        if (uploadResponse.status === 200) {
+          toast.success("File uploaded successfully.");
+          console.log("uploadResponse", uploadResponse)
+        } else {
+          toast.error("Upload failed.");
+        }
+      }
+
+    },
+    [],
+  );
+
+  const handleDelete = (index: number) => {
+    console.log(index)
+    toast.success(`delete ${index}`)
+  }
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-green-50  gap-3">
-      <div className="flex flex-cols justify-center items-center">
+    <div className="flex justify-center items-center min-w-screen min-h-screen bg-slate  gap-3">
+      <div className="flex flex-col justify-center items-center w-1/2">
         <FileUpload
           value={files}
           onValueChange={setFiles}
           onFileValidate={onFileValidate}
+          onUpload={onUpload}
           onFileReject={onFileReject}
           accept="image/*"
           maxFiles={1}
-          className="w-full max-w-md"
+
+          className="w-full "
         >
           <FileUploadDropzone>
             <div className="flex flex-col items-center gap-1 text-center">
@@ -84,6 +119,25 @@ function Home() {
           </FileUploadList>
         </FileUpload>
         {/* <Button>Upload</Button> */}
+
+        <div className="w-full flex flex-col border m-5 rounded-xl">
+          <h1 className="h1 font-bold mt-5 ms-5">Uploaded Images</h1>
+          <Scroller className="flex h-80 w-full flex-col gap-2.5 p-4">
+            {Array.from({ length: 100 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex h-40 w-full justify-between items-center rounded-md bg-accent p-4 "
+              >
+                <img src="https://img.freepik.com/free-photo/woman-beach-with-her-baby-enjoying-sunset_52683-144131.jpg?size=626&ext=jpg" width={75} alt="img" />
+                <Button variant="ghost" size="icon" className="size-7" onClick={() => handleDelete(index)}>
+                  <X />
+                </Button>
+              </div>
+            ))}
+          </Scroller>
+
+        </div>
+
       </div>
     </div>
   );

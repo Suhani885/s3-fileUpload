@@ -1,7 +1,7 @@
-const baseURL = 'http://localhost:8000'
+const baseURL = 'http://10.21.98.201:8000'
 import { defineConfig } from '@hey-api/openapi-ts';
 export default defineConfig({
-    input: `${baseURL}/openapi.yaml`,
+    input: `${baseURL}/schema`,
     output: 'src/services/api',
     plugins: [
         '@tanstack/react-query',
