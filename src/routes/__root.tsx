@@ -12,6 +12,12 @@ import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
 import { Toaster } from 'sonner'
 import "../../setup"
+
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+const queryClient = new QueryClient()
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -64,16 +70,18 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html className='dark'>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-        <Toaster position="top-center" richColors />
+    <QueryClientProvider client={queryClient}>
+      <html className='dark'>
+        <head>
+          <HeadContent />
+        </head>
+        <body>
+          {children}
+          <Scripts />
+          <Toaster position="top-center" richColors />
 
-      </body>
-    </html>
+        </body>
+      </html>
+    </QueryClientProvider>
   )
 }

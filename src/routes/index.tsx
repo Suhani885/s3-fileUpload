@@ -6,6 +6,8 @@ import { Button } from "../components/ui/button";
 import { urlLinkGenerateCreate } from "~/services/api";
 import { Scroller } from "~/components/ui/scroller";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { urlLinkGenerateCreateMutation } from "~/services/api/@tanstack/react-query.gen";
 import {
   FileUpload,
   FileUploadDropzone,
@@ -24,6 +26,8 @@ export const Route = createFileRoute("/")({
 });
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
+  const uploadMutation = useMutation(urlLinkGenerateCreateMutation())
+
 
   const onFileValidate = React.useCallback(
     (file: File): string | null => {
@@ -47,24 +51,37 @@ function Home() {
 
   const onUpload: NonNullable<FileUploadProps["onUpload"]> = React.useCallback(
     async (files, { onProgress, onSuccess, onError }) => {
+      uploadMutation.mutate({},
+        {
+          onSuccess: async (data) => {
+            // console.log("data", data)
+            // toast.success("Product Added Successfully")
 
-      const data = await urlLinkGenerateCreate()
-      const url = data?.data?.url
-      if (url) {
-        const uploadResponse = await axios.put(url, files[0], {
-          headers: {
-            "Content-Type": files[0].type,
+            const url = data.url
+            toast.success(url)
+            if (url) {
+              const uploadResponse = await axios.put(url, files[0], {
+                headers: {
+                  "Content-Type": files[0].type,
+                },
+              });
+
+
+              if (uploadResponse.status === 200) {
+                toast.success("File uploaded successfully.");
+                console.log("uploadResponse", uploadResponse)
+              } else {
+                toast.error("Upload failed.");
+              }
+            }
           },
-        });
-
-
-        if (uploadResponse.status === 200) {
-          toast.success("File uploaded successfully.");
-          console.log("uploadResponse", uploadResponse)
-        } else {
-          toast.error("Upload failed.");
+          onError: (error) => {
+            console.log(error)
+          }
         }
-      }
+      )
+      // const data = await urlLinkGenerateCreate()
+
 
     },
     [],

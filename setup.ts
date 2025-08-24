@@ -1,7 +1,7 @@
 // import { baseURL } from './services/baseUrl';
 // import { client } from './services/api/client.gen'
 import { client } from '~/services/api/client.gen';
-const baseURL = "https://10.21.98.201:8888"
+const baseURL = "https://10.21.99.26:8000"
 
 client.setConfig({
     baseURL: baseURL,

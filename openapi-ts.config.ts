@@ -1,4 +1,4 @@
-const baseURL = 'http://10.21.98.201:8000'
+const baseURL = 'http://10.21.99.26:8001'
 import { defineConfig } from '@hey-api/openapi-ts';
 export default defineConfig({
     input: `${baseURL}/schema`,

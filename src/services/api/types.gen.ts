@@ -5,6 +5,36 @@ export type Url = {
     readonly uuid: string;
 };
 
+export type UrlLinkGenerateDestroyData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/url/link-generate/';
+};
+
+export type UrlLinkGenerateDestroyResponses = {
+    /**
+     * No response body
+     */
+    204: void;
+};
+
+export type UrlLinkGenerateDestroyResponse = UrlLinkGenerateDestroyResponses[keyof UrlLinkGenerateDestroyResponses];
+
+export type UrlLinkGenerateRetrieveData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/url/link-generate/';
+};
+
+export type UrlLinkGenerateRetrieveResponses = {
+    /**
+     * No response body
+     */
+    200: unknown;
+};
+
 export type UrlLinkGenerateCreateData = {
     body?: never;
     path?: never;
@@ -18,20 +48,6 @@ export type UrlLinkGenerateCreateResponses = {
 
 export type UrlLinkGenerateCreateResponse = UrlLinkGenerateCreateResponses[keyof UrlLinkGenerateCreateResponses];
 
-export type UrlLinkGenerateUpdateData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/url/link-generate/';
-};
-
-export type UrlLinkGenerateUpdateResponses = {
-    /**
-     * No response body
-     */
-    200: unknown;
-};
-
 export type ClientOptions = {
-    baseURL: 'http://10.21.98.201:8000' | (string & {});
+    baseURL: 'http://10.21.99.26:8001' | (string & {});
 };
