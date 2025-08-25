@@ -31,6 +31,7 @@ export const urlAcknowledgmentUpdate = <ThrowOnError extends boolean = false>(op
 
 export const urlLinkGenerateDestroy = <ThrowOnError extends boolean = false>(options?: Options<UrlLinkGenerateDestroyData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).delete<UrlLinkGenerateDestroyResponses, unknown, ThrowOnError>({
+        responseType: 'json',
         url: '/url/link-generate/',
         ...options
     });

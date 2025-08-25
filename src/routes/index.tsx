@@ -9,6 +9,8 @@ import {
   urlAcknowledgmentUpdateMutation,
   urlLinkGenerateCreateMutation,
   urlLinkGenerateListOptions,
+  urlLinkGenerateDestroyMutation,
+  urlLinkGenerateListQueryKey
 } from "~/services/api/@tanstack/react-query.gen";
 import { Button } from "../components/ui/button";
 import {
@@ -22,6 +24,7 @@ import {
   FileUploadProps,
   FileUploadTrigger,
 } from "../components/ui/file-upload";
+import { useQueryClient } from "@tanstack/react-query";
 export const Route = createFileRoute("/")({
   component: Home,
 });
@@ -29,6 +32,8 @@ function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
   const uploadMutation = useMutation(urlLinkGenerateCreateMutation());
   const acknowledgeMutation = useMutation(urlAcknowledgmentUpdateMutation());
+  const deleteMutation = useMutation(urlLinkGenerateDestroyMutation())
+  const queryClient = useQueryClient();
 
   const onFileValidate = React.useCallback(
     (file: File): string | null => {
@@ -78,9 +83,12 @@ function Home() {
                     },
                   },
                   {
-                    onSuccess: async (data) => {
+                    onSuccess: (data) => {
                       console.log(data);
                       toast.success("File uploaded successfully.");
+                      queryClient.invalidateQueries({ queryKey: urlLinkGenerateListQueryKey() });
+                      setFiles([])
+
                     },
                   }
                 );
@@ -98,9 +106,25 @@ function Home() {
     []
   );
 
-  const handleDelete = (index: number) => {
-    console.log(index);
-    toast.success(`delete ${index}`);
+  const handleDelete = (uuid: string) => {
+    deleteMutation.mutate(
+      {
+        query: {
+          uuid: uuid
+        }
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          toast.success("Image Deleted successfully.");
+          queryClient.invalidateQueries({ queryKey: urlLinkGenerateListQueryKey() });
+
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      }
+    )
   };
   return (
     <div className="flex justify-center items-center min-w-screen min-h-screen bg-slate  gap-3">
@@ -155,12 +179,12 @@ function Home() {
                 key={index}
                 className="flex h-40 w-full justify-between items-center rounded-md bg-accent p-4 "
               >
-                <img src={item.Url} width={75} alt="img" />
+                <img src={item.Url} width={75} height={50} alt="img" />
                 <Button
                   variant="ghost"
                   size="icon"
                   className="size-7"
-                  onClick={() => handleDelete(index)}
+                  onClick={() => handleDelete(item.Key)}
                 >
                   <X />
                 </Button>

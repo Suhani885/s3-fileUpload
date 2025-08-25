@@ -32,15 +32,20 @@ export type UrlAcknowledgmentUpdateResponses = {
 export type UrlLinkGenerateDestroyData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * URL to be deleted
+         */
+        uuid?: string;
+    };
     url: '/url/link-generate/';
 };
 
 export type UrlLinkGenerateDestroyResponses = {
     /**
-     * No response body
+     * Deleted Image
      */
-    204: void;
+    204: string;
 };
 
 export type UrlLinkGenerateDestroyResponse = UrlLinkGenerateDestroyResponses[keyof UrlLinkGenerateDestroyResponses];
