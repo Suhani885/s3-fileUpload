@@ -14,5 +14,5 @@ import { type Config, type ClientOptions as DefaultClientOptions, createClient, 
 export type CreateClientConfig<T extends DefaultClientOptions = ClientOptions> = (override?: Config<DefaultClientOptions & T>) => Config<Required<DefaultClientOptions> & T>;
 
 export const client = createClient(createConfig<ClientOptions>({
-    baseURL: 'http://10.21.99.26:8001'
+    baseURL: 'http://100.74.154.19:8001'
 }));

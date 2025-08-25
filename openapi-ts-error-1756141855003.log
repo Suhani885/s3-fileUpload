@@ -1,0 +1,8 @@
+[2025-08-25T17:10:55.003Z] Error: Request failed with status 200: 
+Stack:
+Error: Request failed with status 200: 
+    at qi (/home/shivanshu/s3-fileUpload/node_modules/@hey-api/openapi-ts/dist/index.cjs:46:8003)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Promise.all (index 0)
+    at async X0 (/home/shivanshu/s3-fileUpload/node_modules/@hey-api/openapi-ts/dist/index.cjs:1342:6572)
+    at async start (/home/shivanshu/s3-fileUpload/node_modules/@hey-api/openapi-ts/bin/index.cjs:139:21)

@@ -1,13 +1,16 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Upload, X } from "lucide-react";
 import * as React from "react";
-import { Button } from "../components/ui/button";
-import { urlLinkGenerateCreate } from "~/services/api";
+import { toast } from "sonner";
 import { Scroller } from "~/components/ui/scroller";
-import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
-import { urlLinkGenerateCreateMutation } from "~/services/api/@tanstack/react-query.gen";
+import {
+  urlAcknowledgmentUpdateMutation,
+  urlLinkGenerateCreateMutation,
+  urlLinkGenerateListOptions,
+} from "~/services/api/@tanstack/react-query.gen";
+import { Button } from "../components/ui/button";
 import {
   FileUpload,
   FileUploadDropzone,
@@ -16,18 +19,16 @@ import {
   FileUploadItemMetadata,
   FileUploadItemPreview,
   FileUploadList,
+  FileUploadProps,
   FileUploadTrigger,
-  FileUploadProps
-
 } from "../components/ui/file-upload";
-import { toast } from "sonner";
 export const Route = createFileRoute("/")({
   component: Home,
 });
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
-  const uploadMutation = useMutation(urlLinkGenerateCreateMutation())
-
+  const uploadMutation = useMutation(urlLinkGenerateCreateMutation());
+  const acknowledgeMutation = useMutation(urlAcknowledgmentUpdateMutation());
 
   const onFileValidate = React.useCallback(
     (file: File): string | null => {
@@ -49,16 +50,17 @@ function Home() {
     });
   }, []);
 
+  const { data: images } = useQuery({ ...urlLinkGenerateListOptions() });
+  console.log(images);
+
   const onUpload: NonNullable<FileUploadProps["onUpload"]> = React.useCallback(
     async (files, { onProgress, onSuccess, onError }) => {
-      uploadMutation.mutate({},
+      uploadMutation.mutate(
+        {},
         {
           onSuccess: async (data) => {
-            // console.log("data", data)
-            // toast.success("Product Added Successfully")
-
-            const url = data.url
-            toast.success(url)
+            const url = data.url;
+            const uuid: string = data.uuid;
             if (url) {
               const uploadResponse = await axios.put(url, files[0], {
                 headers: {
@@ -66,31 +68,40 @@ function Home() {
                 },
               });
 
-
               if (uploadResponse.status === 200) {
-                toast.success("File uploaded successfully.");
-                console.log("uploadResponse", uploadResponse)
+                console.log(uuid);
+                acknowledgeMutation.mutate(
+                  {
+                    body: {
+                      acknowledgement: true,
+                      uuid: uuid,
+                    },
+                  },
+                  {
+                    onSuccess: async (data) => {
+                      console.log(data);
+                      toast.success("File uploaded successfully.");
+                    },
+                  }
+                );
               } else {
                 toast.error("Upload failed.");
               }
             }
           },
           onError: (error) => {
-            console.log(error)
-          }
+            console.log(error);
+          },
         }
-      )
-      // const data = await urlLinkGenerateCreate()
-
-
+      );
     },
-    [],
+    []
   );
 
   const handleDelete = (index: number) => {
-    console.log(index)
-    toast.success(`delete ${index}`)
-  }
+    console.log(index);
+    toast.success(`delete ${index}`);
+  };
   return (
     <div className="flex justify-center items-center min-w-screen min-h-screen bg-slate  gap-3">
       <div className="flex flex-col justify-center items-center w-1/2">
@@ -102,7 +113,6 @@ function Home() {
           onFileReject={onFileReject}
           accept="image/*"
           maxFiles={1}
-
           className="w-full "
         >
           <FileUploadDropzone>
@@ -140,21 +150,24 @@ function Home() {
         <div className="w-full flex flex-col border m-5 rounded-xl">
           <h1 className="h1 font-bold mt-5 ms-5">Uploaded Images</h1>
           <Scroller className="flex h-80 w-full flex-col gap-2.5 p-4">
-            {Array.from({ length: 100 }).map((_, index) => (
+            {images?.map((item, index) => (
               <div
                 key={index}
                 className="flex h-40 w-full justify-between items-center rounded-md bg-accent p-4 "
               >
-                <img src="https://img.freepik.com/free-photo/woman-beach-with-her-baby-enjoying-sunset_52683-144131.jpg?size=626&ext=jpg" width={75} alt="img" />
-                <Button variant="ghost" size="icon" className="size-7" onClick={() => handleDelete(index)}>
+                <img src={item.Url} width={75} alt="img" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="size-7"
+                  onClick={() => handleDelete(index)}
+                >
                   <X />
                 </Button>
               </div>
             ))}
           </Scroller>
-
         </div>
-
       </div>
     </div>
   );
