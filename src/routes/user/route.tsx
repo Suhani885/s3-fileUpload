@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import Nav from "~/components/Navbar";
-
+import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
+import { AppSidebar } from "~/components/app-sidebar"
 export const Route = createFileRoute("/user")({
   component: userComponent,
 });
@@ -9,11 +9,12 @@ function userComponent() {
   return (
     // navbar and authentication here
 
-    <div className="min-h-screen min-w-screen flex flex-col">
-      <Nav />
-      <div className="flex-1 bg-[#CBEEF3] p-4">
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="flex w-screen">
+        <SidebarTrigger />
         <Outlet />
-      </div>
-    </div>
+      </main>
+    </SidebarProvider>
   );
 }
