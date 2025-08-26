@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as UserRouteRouteImport } from './routes/user/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserIndexRouteImport } from './routes/user/index'
+import { Route as UserManageDeviceRouteImport } from './routes/user/manageDevice'
 
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
@@ -29,41 +32,86 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserRouteRoute = UserRouteRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserIndexRoute = UserIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UserRouteRoute,
+} as any)
+const UserManageDeviceRoute = UserManageDeviceRouteImport.update({
+  id: '/manageDevice',
+  path: '/manageDevice',
+  getParentRoute: () => UserRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/user': typeof UserRouteRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
+  '/user/manageDevice': typeof UserManageDeviceRoute
+  '/user/': typeof UserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
+  '/user/manageDevice': typeof UserManageDeviceRoute
+  '/user': typeof UserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/user': typeof UserRouteRouteWithChildren
   '/dashboard': typeof DashboardRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
+  '/user/manageDevice': typeof UserManageDeviceRoute
+  '/user/': typeof UserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/profile' | '/upload'
+  fullPaths:
+    | '/'
+    | '/user'
+    | '/dashboard'
+    | '/profile'
+    | '/upload'
+    | '/user/manageDevice'
+    | '/user/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/profile' | '/upload'
-  id: '__root__' | '/' | '/dashboard' | '/profile' | '/upload'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/profile'
+    | '/upload'
+    | '/user/manageDevice'
+    | '/user'
+  id:
+    | '__root__'
+    | '/'
+    | '/user'
+    | '/dashboard'
+    | '/profile'
+    | '/upload'
+    | '/user/manageDevice'
+    | '/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UserRouteRoute: typeof UserRouteRouteWithChildren
   DashboardRoute: typeof DashboardRoute
   ProfileRoute: typeof ProfileRoute
   UploadRoute: typeof UploadRoute
@@ -92,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -99,11 +154,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/': {
+      id: '/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof UserIndexRouteImport
+      parentRoute: typeof UserRouteRoute
+    }
+    '/user/manageDevice': {
+      id: '/user/manageDevice'
+      path: '/manageDevice'
+      fullPath: '/user/manageDevice'
+      preLoaderRoute: typeof UserManageDeviceRouteImport
+      parentRoute: typeof UserRouteRoute
+    }
   }
 }
 
+interface UserRouteRouteChildren {
+  UserManageDeviceRoute: typeof UserManageDeviceRoute
+  UserIndexRoute: typeof UserIndexRoute
+}
+
+const UserRouteRouteChildren: UserRouteRouteChildren = {
+  UserManageDeviceRoute: UserManageDeviceRoute,
+  UserIndexRoute: UserIndexRoute,
+}
+
+const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
+  UserRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UserRouteRoute: UserRouteRouteWithChildren,
   DashboardRoute: DashboardRoute,
   ProfileRoute: ProfileRoute,
   UploadRoute: UploadRoute,
