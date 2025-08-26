@@ -43,7 +43,7 @@ const config = {
 
 function RouteComponent() {
   return (
-    <div className="flex flex-col items-center min-w-screen h-screen bg-slate gap-3">
+    <div className="flex flex-col items-center w-full flex-1 h-screen bg-slate gap-3">
       <div className="lg:w-2/3 h-2/3 mt-20 bg-slate-100 p-6 flex flex-col rounded-xl border border-black">
         <h1 className="text-black text-3xl font-bold text-center mb-5">User Login Frequency Data</h1>
         <Column {...config} />
