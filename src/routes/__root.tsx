@@ -14,7 +14,6 @@ import { seo } from "~/utils/seo";
 import "../../setup";
 
 import { QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "~/hooks/auth";
 import { queryClient } from "~/utils/QueryClient";
 import { MyRouterContext } from "~/utils/types";
 
@@ -71,9 +70,7 @@ function RootComponent() {
   return (
     <RootDocument>
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Outlet />
-        </AuthProvider>
+        <Outlet />
       </QueryClientProvider>
     </RootDocument>
   );
