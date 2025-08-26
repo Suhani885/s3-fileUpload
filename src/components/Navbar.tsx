@@ -3,13 +3,13 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function Nav() {
   return (
-    <Disclosure as="nav" className="relative bg-[#f26a8d] shadow-md">
+    <Disclosure as="nav" className="relative bg-[#344e41] shadow-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative flex h-16 items-center justify-between">
           
           {/* Mobile Menu Button */}
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-            <DisclosureButton className="group inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-[#f49cbb] focus:outline-none focus:ring-2 focus:ring-white">
+            <DisclosureButton className="group inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-[#1d3557] focus:outline-none focus:ring-2 focus:ring-white">
               <span className="sr-only">Open main menu</span>
               <Bars3Icon className="block h-6 w-6 group-data-open:hidden" aria-hidden="true" />
               <XMarkIcon className="hidden h-6 w-6 group-data-open:block" aria-hidden="true" />
@@ -28,7 +28,7 @@ export default function Nav() {
               <div className="flex space-x-4">
                 <a
                   href="/user"
-                  className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#f49cbb] transition"
+                  className="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-[#1d3557] transition"
                 >
                   Dashboard
                 </a>
@@ -39,7 +39,7 @@ export default function Nav() {
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <button
               type="button"
-              className="relative rounded-full p-1 text-white hover:bg-[#f49cbb] focus:outline-none focus:ring-2 focus:ring-white"
+              className="relative rounded-full p-1 text-white hover:bg-[#1d3557] focus:outline-none focus:ring-2 focus:ring-white"
             >
               <span className="sr-only">View notifications</span>
               <BellIcon className="h-6 w-6" aria-hidden="true" />
@@ -65,7 +65,7 @@ export default function Nav() {
                     <a
                       href="/user/manageDevice"
                       className={`block px-4 py-2 text-sm ${
-                        active ? 'bg-[#fef2f5] text-[#f26a8d]' : 'text-gray-700'
+                        active ? 'bg-white text-[#1d3557]' : 'text-gray-700'
                       }`}
                     >
                       Manage devices
@@ -77,7 +77,7 @@ export default function Nav() {
                     <a
                       href="#"
                       className={`block px-4 py-2 text-sm ${
-                        active ? 'bg-[#fef2f5] text-[#f26a8d]' : 'text-gray-700'
+                        active ? 'bg-white text-[#1d3557]' : 'text-gray-700'
                       }`}
                     >
                       Sign out
@@ -96,7 +96,7 @@ export default function Nav() {
           <DisclosureButton
             as="a"
             href="/user"
-            className="block rounded-md bg-[#f49cbb] px-3 py-2 text-base font-medium text-white hover:bg-[#f26a8d] transition"
+            className="block rounded-md bg-[#1d3557] px-3 py-2 text-base font-medium text-white hover:bg-[#344e41] transition"
           >
             Dashboard
           </DisclosureButton>

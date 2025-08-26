@@ -13,11 +13,7 @@ interface DataType {
 }
 
 const columns: TableProps<DataType>["columns"] = [
-const columns: TableProps<DataType>["columns"] = [
   {
-    title: "Device",
-    dataIndex: "device",
-    key: "device",
     title: "Device",
     dataIndex: "device",
     key: "device",
@@ -26,12 +22,9 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Location",
     dataIndex: "loc",
     key: "loc",
-    render: (text) => <a className="text-blue-600 hover:underline">{text}</a>,
+    render: (text) => <a className="hover:underline">{text}</a>,
   },
   {
-    title: "IP Address",
-    dataIndex: "ip",
-    key: "ip",
     title: "IP Address",
     dataIndex: "ip",
     key: "ip",
@@ -40,22 +33,13 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Logged In",
     dataIndex: "login",
     key: "login",
-    title: "Logged In",
-    dataIndex: "login",
-    key: "login",
   },
   {
     title: "Last Active",
     dataIndex: "last",
     key: "last",
-    title: "Last Active",
-    dataIndex: "last",
-    key: "last",
   },
   {
-    title: "Session",
-    key: "tags",
-    dataIndex: "tags",
     title: "Session",
     key: "tags",
     dataIndex: "tags",
@@ -73,8 +57,6 @@ const columns: TableProps<DataType>["columns"] = [
     ),
   },
   {
-    title: "Action",
-    key: "action",
     title: "Action",
     key: "action",
     render: () => (
@@ -113,6 +95,24 @@ const data: DataType[] = [
     device: "Nokia A1",
     tags: ["Inactive"],
   },
+  {
+    key: "4",
+    loc: "Ireland",
+    ip: 32,
+    login: "30 JAN, 2025 (10:30 AM)",
+    last: "2 days ago",
+    device: "Nokia A1",
+    tags: ["Inactive"],
+  },
+  {
+    key: "5",
+    loc: "Ireland",
+    ip: 32,
+    login: "30 JAN, 2025 (10:30 AM)",
+    last: "2 days ago",
+    device: "Nokia A1",
+    tags: ["Inactive"],
+  },
 ];
 
 export const Route = createFileRoute("/user/manageDevice")({
@@ -121,9 +121,9 @@ export const Route = createFileRoute("/user/manageDevice")({
 
 function RouteComponent() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br p-6">
-      <Card className="w-full max-w-6xl shadow-lg rounded-xl">
-        <h1 className="text-2xl font-bold mb-8 text-black">Manage Devices</h1>
+    <div className="flex justify-center bg-gradient-to-br p-6">
+      <Card className="w-full max-w-6xl mt-10 shadow-lg rounded-xl">
+        <h1 className="text-2xl font-bold mb-8 text-black text-center">Manage Devices</h1>
         <Table<DataType>
           bordered
           columns={columns}
@@ -133,6 +133,5 @@ function RouteComponent() {
         />
       </Card>
     </div>
-  );
   );
 }
