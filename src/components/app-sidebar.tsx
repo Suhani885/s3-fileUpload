@@ -54,7 +54,6 @@ export function AppSidebar() {
     return (
         <Sidebar >
             <SidebarContent >
-                {/* Company Header */}
                 <SidebarGroup>
                     <SidebarGroupLabel>
                         <div className="flex items-center space-x-2">
@@ -67,7 +66,6 @@ export function AppSidebar() {
                     </SidebarGroupLabel>
                 </SidebarGroup>
 
-                {/* Platform Section */}
                 <SidebarGroup>
                     <SidebarGroupLabel className="text-md">Platform</SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -80,8 +78,6 @@ export function AppSidebar() {
                                             <span>{item.title}</span>
                                         </a>
                                     </SidebarMenuButton>
-
-                                    {/* Submenu (only for Playground in example) */}
                                     {item.children && (
                                         <div className="ml-6 mt-1 space-y-1">
                                             {item.children.map((child) => (
@@ -102,7 +98,6 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
 
-            {/* Footer user info */}
             <SidebarFooter>
                 <div className="flex items-center gap-3 px-3 py-2">
                     <Avatar className="h-8 w-8">
