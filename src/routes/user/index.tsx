@@ -19,6 +19,47 @@ const config = {
   data,
   xField: "date",
   yField: "frequency",
+  color: "#60a5fa", // blue-400 for dark theme
+  columnStyle: {
+    radius: [6, 6, 0, 0],
+  },
+  label: {
+    position: "top",
+    style: {
+      fill: "#f3f4f6", // gray-100
+      fontSize: 13,
+      fontWeight: 500,
+    },
+  },
+  xAxis: {
+    label: {
+      style: { fill: "#d1d5db", fontSize: 12 }, // gray-300
+    },
+    line: {
+      style: { stroke: "#4b5563" }, // gray-700 axis line
+    },
+  },
+  yAxis: {
+    label: {
+      style: { fill: "#d1d5db", fontSize: 12 },
+    },
+    grid: {
+      line: {
+        style: { stroke: "#374151", lineWidth: 1, lineDash: [4, 4] }, // faint grid
+      },
+    },
+  },
+  tooltip: {
+    showTitle: false,
+    domStyles: {
+      "g2-tooltip": {
+        backgroundColor: "#1f2937", // gray-800
+        color: "#f9fafb", // gray-50
+        borderRadius: "8px",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
+      },
+    },
+  },
   onReady: ({ chart }: { chart: any }) => {
     try {
       const { height } = chart._container.getBoundingClientRect();
@@ -43,12 +84,31 @@ const config = {
 
 function RouteComponent() {
   return (
-    <div className="flex flex-col items-center w-full flex-1 h-screen bg-slate gap-3">
-      <div className="lg:w-2/3 h-2/3 mt-20 bg-slate-100 p-6 flex flex-col rounded-xl border border-black">
-        <h1 className="text-black text-3xl font-bold text-center mb-5">User Login Frequency Data</h1>
-        <Column {...config} />
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen w-full  px-4">
+      <div className="w-full max-w-5xl bg-gray-800/80 backdrop-blur-xl border border-gray-700 shadow-2xl rounded-2xl p-8">
+        {/* Header */}
+        <h1 className="text-gray-100 text-3xl lg:text-4xl font-bold text-center mb-8">
+          📊 User Login Frequency
+        </h1>
 
+        {/* Chart */}
+        <div className="h-[450px]">
+          <Column {...config} />
+        </div>
+
+        {/* Stats Footer */}
+        <div className="mt-6 flex flex-col sm:flex-row justify-between items-center text-gray-300 text-sm gap-3">
+          <p className="italic">Login activity for May 2025</p>
+          <p className="font-medium">
+            Total logins:{" "}
+            <span className="text-blue-400 font-semibold">
+              {data.reduce((sum, d) => sum + d.frequency, 0)}
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
+
+export default RouteComponent;
