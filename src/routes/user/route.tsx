@@ -11,7 +11,7 @@ function userComponent() {
 
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex w-screen">
+      <main className="flex w-screen ">
         <SidebarTrigger />
         <Outlet />
       </main>
