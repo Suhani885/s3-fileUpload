@@ -22,7 +22,7 @@ const config = {
   data,
   xField: "letter",
   yField: "frequency",
-  onReady: ({ chart }) => {
+  onReady: ({ chart }: { chart: any }) => {
     try {
       const { height } = chart._container.getBoundingClientRect();
       const tooltipItem = data[Math.floor(Math.random() * data.length)];
