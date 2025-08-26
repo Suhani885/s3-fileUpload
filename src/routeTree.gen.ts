@@ -10,8 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as UserRouteRouteImport } from './routes/user/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as UserIndexRouteImport } from './routes/user/index'
@@ -20,16 +18,6 @@ import { Route as UserManageDeviceRouteImport } from './routes/user/manageDevice
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
   path: '/upload',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UserRouteRoute = UserRouteRouteImport.update({
@@ -56,16 +44,12 @@ const UserManageDeviceRoute = UserManageDeviceRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
-  '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
   '/user/manageDevice': typeof UserManageDeviceRoute
   '/user/': typeof UserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
   '/user/manageDevice': typeof UserManageDeviceRoute
   '/user': typeof UserIndexRoute
@@ -74,46 +58,21 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/user': typeof UserRouteRouteWithChildren
-  '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
   '/user/manageDevice': typeof UserManageDeviceRoute
   '/user/': typeof UserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/user'
-    | '/dashboard'
-    | '/profile'
-    | '/upload'
-    | '/user/manageDevice'
-    | '/user/'
+  fullPaths: '/' | '/user' | '/upload' | '/user/manageDevice' | '/user/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/dashboard'
-    | '/profile'
-    | '/upload'
-    | '/user/manageDevice'
-    | '/user'
-  id:
-    | '__root__'
-    | '/'
-    | '/user'
-    | '/dashboard'
-    | '/profile'
-    | '/upload'
-    | '/user/manageDevice'
-    | '/user/'
+  to: '/' | '/upload' | '/user/manageDevice' | '/user'
+  id: '__root__' | '/' | '/user' | '/upload' | '/user/manageDevice' | '/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UserRouteRoute: typeof UserRouteRouteWithChildren
-  DashboardRoute: typeof DashboardRoute
-  ProfileRoute: typeof ProfileRoute
   UploadRoute: typeof UploadRoute
 }
 
@@ -124,20 +83,6 @@ declare module '@tanstack/react-router' {
       path: '/upload'
       fullPath: '/upload'
       preLoaderRoute: typeof UploadRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/user': {
@@ -188,8 +133,6 @@ const UserRouteRouteWithChildren = UserRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UserRouteRoute: UserRouteRouteWithChildren,
-  DashboardRoute: DashboardRoute,
-  ProfileRoute: ProfileRoute,
   UploadRoute: UploadRoute,
 }
 export const routeTree = rootRouteImport
