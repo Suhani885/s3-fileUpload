@@ -27,9 +27,10 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
-
+import { useMutation } from "@tanstack/react-query"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-
+import { managerLoginDestroyMutation } from "~/services/api/@tanstack/react-query.gen"
+import { toast } from "sonner"
 const platformItems = [
     {
         title: "Playground",
@@ -58,6 +59,15 @@ const platformItems = [
 ]
 
 export function AppSidebar() {
+    const logoutMutation = useMutation(managerLoginDestroyMutation())
+    const logoutUser = () => {
+        logoutMutation.mutate({}, {
+            onSuccess: (data) => {
+                console.log(data)
+                toast.success("Usser Logout successfull")
+            }
+        })
+    }
     return (
         <Sidebar >
             <SidebarContent >
@@ -123,7 +133,7 @@ export function AppSidebar() {
                     </DropdownMenuTrigger>
 
                     <DropdownMenuContent side="top" align="end" className="w-48">
-                        <DropdownMenuItem onClick={() => console.log("Logout clicked")}>
+                        <DropdownMenuItem className="cursor-pointer" onClick={logoutUser}>
                             Logout
                         </DropdownMenuItem>
                     </DropdownMenuContent>

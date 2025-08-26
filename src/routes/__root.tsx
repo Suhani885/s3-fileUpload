@@ -113,7 +113,7 @@ function RootComponent() {
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html className="dark">
       <head>
         <HeadContent />
       </head>

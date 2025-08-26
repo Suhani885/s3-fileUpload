@@ -9,9 +9,9 @@ function userComponent() {
   return (
     // navbar and authentication here
 
-    <SidebarProvider>
+    <SidebarProvider >
       <AppSidebar />
-      <main className="flex w-screen ">
+      <main className="flex w-screen bg-black">
         <SidebarTrigger />
         <Outlet />
       </main>

@@ -116,7 +116,6 @@ function LoginComponent() {
         </Form>
       </div>
       <div className="w-0 md:w-2/3 h-full relative bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 overflow-hidden">
-        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-40 h-40 border border-white/30 rounded-full"></div>
           <div className="absolute top-40 right-32 w-24 h-24 border border-white/20 rounded-full"></div>
@@ -124,7 +123,6 @@ function LoginComponent() {
           <div className="absolute bottom-20 right-20 w-48 h-48 border border-white/15 rounded-full"></div>
         </div>
 
-        {/* Content Overlay */}
         <div className="relative z-10 h-full flex flex-col justify-center items-center text-center p-12 text-white">
           <div className="max-w-lg">
             <h2 className="text-4xl font-bold mb-6 leading-tight">
@@ -135,7 +133,6 @@ function LoginComponent() {
               increase productivity, and drive growth.
             </p>
 
-            {/* Feature Cards */}
             <div className="grid grid-cols-1 gap-6 mt-12">
               <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300">
                 <div className="flex items-center gap-4">
