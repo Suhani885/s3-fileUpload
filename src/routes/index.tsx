@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import axios from "axios";
 import { Upload, X } from "lucide-react";
@@ -8,9 +8,9 @@ import { Scroller } from "~/components/ui/scroller";
 import {
   urlAcknowledgmentUpdateMutation,
   urlLinkGenerateCreateMutation,
-  urlLinkGenerateListOptions,
   urlLinkGenerateDestroyMutation,
-  urlLinkGenerateListQueryKey
+  urlLinkGenerateListOptions,
+  urlLinkGenerateListQueryKey,
 } from "~/services/api/@tanstack/react-query.gen";
 import { Button } from "../components/ui/button";
 import {
@@ -24,15 +24,16 @@ import {
   FileUploadProps,
   FileUploadTrigger,
 } from "../components/ui/file-upload";
-import { useQueryClient } from "@tanstack/react-query";
+
 export const Route = createFileRoute("/")({
   component: Home,
 });
+
 function Home() {
   const [files, setFiles] = React.useState<File[]>([]);
   const uploadMutation = useMutation(urlLinkGenerateCreateMutation());
   const acknowledgeMutation = useMutation(urlAcknowledgmentUpdateMutation());
-  const deleteMutation = useMutation(urlLinkGenerateDestroyMutation())
+  const deleteMutation = useMutation(urlLinkGenerateDestroyMutation());
   const queryClient = useQueryClient();
 
   const onFileValidate = React.useCallback(
@@ -86,9 +87,10 @@ function Home() {
                     onSuccess: (data) => {
                       console.log(data);
                       toast.success("File uploaded successfully.");
-                      queryClient.invalidateQueries({ queryKey: urlLinkGenerateListQueryKey() });
-                      setFiles([])
-
+                      queryClient.invalidateQueries({
+                        queryKey: urlLinkGenerateListQueryKey(),
+                      });
+                      setFiles([]);
                     },
                   }
                 );
@@ -110,21 +112,22 @@ function Home() {
     deleteMutation.mutate(
       {
         query: {
-          uuid: uuid
-        }
+          uuid: uuid,
+        },
       },
       {
         onSuccess: (data) => {
           console.log(data);
           toast.success("Image Deleted successfully.");
-          queryClient.invalidateQueries({ queryKey: urlLinkGenerateListQueryKey() });
-
+          queryClient.invalidateQueries({
+            queryKey: urlLinkGenerateListQueryKey(),
+          });
         },
         onError: (error) => {
           console.log(error);
         },
       }
-    )
+    );
   };
   return (
     <div className="flex justify-center items-center min-w-screen min-h-screen bg-slate  gap-3">
