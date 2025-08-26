@@ -57,7 +57,6 @@ function Home() {
   }, []);
 
   const { data: images } = useQuery({ ...urlLinkGenerateListOptions() });
-  console.log(images);
 
   const onUpload: NonNullable<FileUploadProps["onUpload"]> = React.useCallback(
     async (files, { onProgress, onSuccess, onError }) => {
