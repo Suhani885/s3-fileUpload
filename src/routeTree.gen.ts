@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
-import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as DevicesRouteImport } from './routes/devices'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -19,9 +19,9 @@ const UploadRoute = UploadRouteImport.update({
   path: '/upload',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
+const DevicesRoute = DevicesRouteImport.update({
+  id: '/devices',
+  path: '/devices',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -38,34 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
+  '/devices': typeof DevicesRoute
   '/upload': typeof UploadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
+  '/devices': typeof DevicesRoute
   '/upload': typeof UploadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/profile': typeof ProfileRoute
+  '/devices': typeof DevicesRoute
   '/upload': typeof UploadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/profile' | '/upload'
+  fullPaths: '/' | '/dashboard' | '/devices' | '/upload'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/profile' | '/upload'
-  id: '__root__' | '/' | '/dashboard' | '/profile' | '/upload'
+  to: '/' | '/dashboard' | '/devices' | '/upload'
+  id: '__root__' | '/' | '/dashboard' | '/devices' | '/upload'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
-  ProfileRoute: typeof ProfileRoute
+  DevicesRoute: typeof DevicesRoute
   UploadRoute: typeof UploadRoute
 }
 
@@ -78,11 +78,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UploadRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
+    '/devices': {
+      id: '/devices'
+      path: '/devices'
+      fullPath: '/devices'
+      preLoaderRoute: typeof DevicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -105,7 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
-  ProfileRoute: ProfileRoute,
+  DevicesRoute: DevicesRoute,
   UploadRoute: UploadRoute,
 }
 export const routeTree = rootRouteImport
