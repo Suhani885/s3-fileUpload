@@ -13,7 +13,11 @@ interface DataType {
 }
 
 const columns: TableProps<DataType>["columns"] = [
+const columns: TableProps<DataType>["columns"] = [
   {
+    title: "Device",
+    dataIndex: "device",
+    key: "device",
     title: "Device",
     dataIndex: "device",
     key: "device",
@@ -28,8 +32,14 @@ const columns: TableProps<DataType>["columns"] = [
     title: "IP Address",
     dataIndex: "ip",
     key: "ip",
+    title: "IP Address",
+    dataIndex: "ip",
+    key: "ip",
   },
   {
+    title: "Logged In",
+    dataIndex: "login",
+    key: "login",
     title: "Logged In",
     dataIndex: "login",
     key: "login",
@@ -38,8 +48,14 @@ const columns: TableProps<DataType>["columns"] = [
     title: "Last Active",
     dataIndex: "last",
     key: "last",
+    title: "Last Active",
+    dataIndex: "last",
+    key: "last",
   },
   {
+    title: "Session",
+    key: "tags",
+    dataIndex: "tags",
     title: "Session",
     key: "tags",
     dataIndex: "tags",
@@ -57,6 +73,8 @@ const columns: TableProps<DataType>["columns"] = [
     ),
   },
   {
+    title: "Action",
+    key: "action",
     title: "Action",
     key: "action",
     render: () => (
@@ -115,5 +133,6 @@ function RouteComponent() {
         />
       </Card>
     </div>
+  );
   );
 }
