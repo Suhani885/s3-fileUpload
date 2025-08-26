@@ -18,7 +18,7 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "device",
     key: "device",
     render: (text) => (
-      <span className="font-semibold text-gray-900">{text}</span>
+      <span className="font-semibold text-gray-100">{text}</span>
     ),
   },
   {
@@ -26,7 +26,7 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "loc",
     key: "loc",
     render: (text) => (
-      <span className="text-gray-700 hover:text-blue-600 hover:underline cursor-pointer transition-colors duration-200">
+      <span className="text-gray-300 cursor-pointer ">
         {text}
       </span>
     ),
@@ -36,7 +36,7 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "ip",
     key: "ip",
     render: (text) => (
-      <span className="font-mono text-sm text-gray-600">{text}</span>
+      <span className="font-mono text-sm text-gray-400">{text}</span>
     ),
   },
   {
@@ -44,7 +44,7 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "login",
     key: "login",
     render: (text) => (
-      <span className="text-sm text-gray-700">{text}</span>
+      <span className="text-sm text-gray-300">{text}</span>
     ),
   },
   {
@@ -52,7 +52,7 @@ const columns: TableProps<DataType>["columns"] = [
     dataIndex: "last",
     key: "last",
     render: (text) => (
-      <span className="text-sm text-gray-600">{text}</span>
+      <span className="text-sm text-gray-400">{text}</span>
     ),
   },
   {
@@ -67,12 +67,12 @@ const columns: TableProps<DataType>["columns"] = [
             <span
               key={tag}
               className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${isActive
-                ? "bg-green-100 text-green-800 border border-green-200"
-                : "bg-red-100 text-red-800 border border-red-200"
+                ? "bg-green-900/50 text-green-300 border border-green-700"
+                : "bg-red-900/50 text-red-300 border border-red-700"
                 }`}
             >
               <div
-                className={`w-2 h-2 rounded-full mr-2 ${isActive ? "bg-green-500" : "bg-red-500"
+                className={`w-2 h-2 rounded-full mr-2 ${isActive ? "bg-green-400" : "bg-red-400"
                   }`}
               />
               {tag}
@@ -87,7 +87,7 @@ const columns: TableProps<DataType>["columns"] = [
     key: "action",
     render: () => (
       <Space size="middle">
-        <button className="text-blue-600 hover:text-blue-800 hover:underline font-medium text-sm transition-colors duration-200">
+        <button className="text-blue-400 hover:text-blue-300 hover:underline font-medium text-sm transition-colors duration-200">
           Flag
         </button>
       </Space>
@@ -161,25 +161,18 @@ function RouteComponent() {
         </div>
 
         <Card
-          className="shadow-sm border border-gray-200 rounded-lg overflow-hidden"
-          bodyStyle={{ padding: 0 }}
+          className="shadow-lg border border-gray-700 rounded-lg overflow-hidden bg-gray-800/80 backdrop-blur-xl"
+          bodyStyle={{ padding: 0, backgroundColor: 'transparent' }}
         >
           <Table<DataType>
             columns={columns}
             dataSource={data}
-            pagination={{
-              showSizeChanger: true,
-              showQuickJumper: true,
-              showTotal: (total, range) =>
-                `${range[0]}-${range[1]} of ${total} devices`,
-              className: "py-4 bg-gray-50 border-t border-gray-200",
-            }}
-            rowClassName="hover:bg-blue-50 transition-colors duration-150"
-            className="[&_.ant-table-thead_.ant-table-cell]:bg-gray-100 [&_.ant-table-thead_.ant-table-cell]:font-semibold [&_.ant-table-thead_.ant-table-cell]:text-gray-800 [&_.ant-table-thead_.ant-table-cell]:border-b-2 [&_.ant-table-thead_.ant-table-cell]:border-gray-200 [&_.ant-table-tbody_.ant-table-cell]:border-b [&_.ant-table-tbody_.ant-table-cell]:border-gray-100 [&_.ant-table-tbody_.ant-table-cell]:py-4"
+            pagination={false}
+            className="[&_.ant-table]:bg-transparent [&_.ant-table-container]:bg-transparent [&_.ant-table-thead_.ant-table-cell]:bg-gray-700/50 [&_.ant-table-thead_.ant-table-cell]:font-semibold [&_.ant-table-thead_.ant-table-cell]:text-gray-200 [&_.ant-table-thead_.ant-table-cell]:border-b-2 [&_.ant-table-thead_.ant-table-cell]:border-gray-600 [&_.ant-table-tbody_.ant-table-cell]:border-b [&_.ant-table-tbody_.ant-table-cell]:border-gray-700 [&_.ant-table-tbody_.ant-table-cell]:py-4 [&_.ant-table-tbody_.ant-table-cell]:bg-transparent [&_.ant-table-tbody_.ant-table-row]:bg-transparent [&_.ant-table-tbody_.ant-table-row:hover]:bg-transparent [&_.ant-table-tbody_.ant-table-row:hover>td]:bg-transparent"
             size="large"
           />
         </Card>
       </div>
     </div>
   );
-}
+} 

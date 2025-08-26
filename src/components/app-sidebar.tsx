@@ -21,6 +21,13 @@ import {
     SidebarFooter,
 } from "./ui/sidebar"
 
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "./ui/dropdown-menu"
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 const platformItems = [
@@ -65,7 +72,7 @@ export function AppSidebar() {
                         </div>
                     </SidebarGroupLabel>
                 </SidebarGroup>
-
+                <hr className="my-3" />
                 <SidebarGroup>
                     <SidebarGroupLabel className="text-md">Platform</SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -97,20 +104,30 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-
+            <hr />
             <SidebarFooter>
-                <div className="flex items-center gap-3 px-3 py-2">
-                    <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>SC</AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
-                        <span className="text-sm font-medium">shadcn</span>
-                        <span className="text-xs text-muted-foreground">
-                            m@example.com
-                        </span>
-                    </div>
-                </div>
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <div className="flex cursor-pointer items-center gap-3 px-3 py-2 rounded-md hover:bg-muted/50">
+                            <Avatar className="h-8 w-8">
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>SC</AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                                <span className="text-sm font-medium">shadcn</span>
+                                <span className="text-xs text-muted-foreground">
+                                    m@example.com
+                                </span>
+                            </div>
+                        </div>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent side="top" align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => console.log("Logout clicked")}>
+                            Logout
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </SidebarFooter>
         </Sidebar>
     )
