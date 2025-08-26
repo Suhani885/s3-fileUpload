@@ -13,8 +13,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<string | null>(null);
   const isAuthenticated = !!user;
 
-  const logout = useCallback(async () => {}, []);
-  const login = useCallback(async () => {}, []);
+  const logout = useCallback(async () => { }, []);
+  const login = useCallback(async () => { }, []);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
