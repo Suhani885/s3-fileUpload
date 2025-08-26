@@ -19,9 +19,8 @@ const config = {
   data,
   xField: "date",
   yField: "frequency",
-  theme: 'dark',
-
-}
+  theme: "dark",
+};
 
 function RouteComponent() {
   return (

@@ -14,8 +14,10 @@ import { seo } from "~/utils/seo";
 import "../../setup";
 
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ConfigProvider } from "antd";
 import { AuthProvider } from "~/utils/Context/Auth";
 import { queryClient } from "~/utils/QueryClient";
+import Authentication from "~/utils/serverfunction/Authentication";
 import { MyRouterContext } from "~/utils/types";
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -65,23 +67,53 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
+  beforeLoad: async () => Authentication(),
 });
 
 function RootComponent() {
   return (
     <RootDocument>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Outlet />
-        </AuthProvider>
-      </QueryClientProvider>
+      <ConfigProvider
+        theme={{
+          components: {
+            Input: {
+              colorPrimary: "#11368a",
+              inputFontSizeLG: 10,
+              paddingBlock: 7,
+              inputFontSize: 15,
+              paddingInline: 9,
+              activeBorderColor: "#11368a",
+              hoverBorderColor: "#11368a",
+            },
+            Button: {
+              defaultBg: "#11368a",
+              defaultColor: "#fff",
+              defaultHoverBg: "#11368a",
+              defaultHoverColor: "#fff",
+              defaultHoverBorderColor: "#11368a",
+              paddingBlock: 34,
+              paddingInline: 20,
+            },
+          },
+          token: {
+            colorBorderBg: "#11368a",
+            colorPrimary: "#5cd8af",
+          },
+        }}
+      >
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <Outlet />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ConfigProvider>
     </RootDocument>
   );
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html className="dark">
+    <html>
       <head>
         <HeadContent />
       </head>
