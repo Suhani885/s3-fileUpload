@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Space, Table, Tag, Card } from "antd";
 import type { TableProps } from "antd";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface DataType {
   key: string;
@@ -148,6 +149,8 @@ export const Route = createFileRoute("/user/manageDevice")({
 });
 
 function RouteComponent() {
+  const queryClient = useQueryClient();
+
   return (
     <div className="flex justify-center min-h-screen flex-1 pt-10">
       <div className="w-full max-w-6xl">
