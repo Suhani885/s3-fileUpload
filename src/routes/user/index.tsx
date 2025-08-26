@@ -1,58 +1,56 @@
+import { Column } from "@ant-design/plots";
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input } from "antd";
-import { ChangeEvent, useState } from "react";
-import * as z from "zod";
 
 export const Route = createFileRoute("/user/")({
   component: RouteComponent,
 });
 
+const data = [
+  { letter: "A", frequency: 8167 },
+  { letter: "B", frequency: 1492 },
+  { letter: "C", frequency: 2782 },
+  { letter: "D", frequency: 4253 },
+  { letter: "E", frequency: 12702 },
+  { letter: "F", frequency: 2288 },
+  { letter: "G", frequency: 2015 },
+  { letter: "H", frequency: 6094 },
+  { letter: "I", frequency: 6966 },
+  { letter: "J", frequency: 153 },
+];
+
+const config = {
+  data,
+  xField: "letter",
+  yField: "frequency",
+  onReady: ({ chart }) => {
+    try {
+      const { height } = chart._container.getBoundingClientRect();
+      const tooltipItem = data[Math.floor(Math.random() * data.length)];
+      chart.on(
+        "afterrender",
+        () => {
+          chart.emit("tooltip:show", {
+            data: {
+              data: tooltipItem,
+            },
+            offsetY: height / 2 - 60,
+          });
+        },
+        true
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  },
+};
+
 function RouteComponent() {
-  const signUpSchema = z.object({
-    email: z.email(),
-    password: z.string().min(8),
-  });
-  const [login, setLogin] = useState<{ email: string; password: string }>({
-    email: "",
-    password: "",
-  });
-
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setLogin((prv) => (prv = { ...prv, [e.target.name]: e.target.value }));
-  };
-
-  const handleLogin = () => {
-    console.log(login);
-  };
   return (
-    <div className="min-w-full h-screen flex justify-center items-center">
-      <div className="flex flex-col w-1/3 gap-4 border border-emerald-400 p-10 rounded-md shadow-lg">
-        <h1 className="font-semibold text-3xl">Login</h1>
-
-        <Input
-          onChange={handleInput}
-          name="email"
-          size="large"
-          placeholder="email"
-          type="email"
-        />
-        <Input
-          onChange={handleInput}
-          name="password"
-          size="large"
-          placeholder="password"
-          type="password"
-        />
-
-        <Button
-          className="bg-emerald-600"
-          variant="outlined"
-          size="large"
-          onClick={handleLogin}
-        >
-          Login{" "}
-        </Button>
+    <div className="flex justify-center items-center min-w-screen min-h-screen bg-slate gap-3">
+      <div className="w-1/2 bg-slate-100 p-6 rounded-xl border border-slate-200">
+        <Column {...config} />
       </div>
+      <div className="w-1/2">data</div>
     </div>
   );
 }
