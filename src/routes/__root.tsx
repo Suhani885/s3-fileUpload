@@ -13,10 +13,9 @@ import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 import "../../setup";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "~/utils/QueryClient";
 import { MyRouterContext } from "~/utils/types";
-
-const queryClient = new QueryClient();
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   head: () => ({
@@ -29,8 +28,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: "width=device-width, initial-scale=1",
       },
       ...seo({
-        title:
-          "TanStack Start | Type-Safe, Client-First, Full-Stack React Framework",
+        title: "Task",
         description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
       }),
     ],
@@ -58,7 +56,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
     scripts: [
       {
-        src: "/customScript.js",
+        // src: "/customScript.js",
         type: "text/javascript",
       },
     ],
