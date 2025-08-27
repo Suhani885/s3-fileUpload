@@ -185,7 +185,7 @@ function RouteComponent() {
     )
   }
   return (
-    <div className="flex justify-center min-h-screen flex-1 pt-10">
+    <div className="flex justify-center min-h-screen flex-1 pt-10 w-screen lg:w-auto">
       <div className="w-full max-w-6xl">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">
@@ -197,7 +197,7 @@ function RouteComponent() {
         </div>
 
         <Card
-          className="shadow-lg border border-gray-700 rounded-lg overflow-hidden bg-gray-800/80 backdrop-blur-xl"
+          className="shadow-lg border border-gray-700 rounded-lg overflow-hidden bg-gray-800/80 backdrop-blur-xl overflow-x-scroll"
           bodyStyle={{ padding: 0, backgroundColor: 'transparent' }}
         >
           <Table<DataType>

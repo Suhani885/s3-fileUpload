@@ -32,13 +32,12 @@ function RouteComponent() {
           </p>
         </div>
       </div>
-      <div className="w-full max-w-5xl bg-gray-800/80 backdrop-blur-xl border border-gray-700 shadow-2xl rounded-2xl p-8 pt-10">
+      <div className="w-full max-w-6xl bg-gray-800/80 backdrop-blur-xl border border-gray-700 shadow-2xl rounded-2xl p-8 pt-10">
         <div className="h-[450px]">
           <Column {...config} />
         </div>
         <div className="mt-6 flex flex-col sm:flex-row justify-between items-center text-gray-300 text-sm gap-3">
           <p className="italic">Login activity of your account</p>
-
         </div>
       </div>
     </div>
