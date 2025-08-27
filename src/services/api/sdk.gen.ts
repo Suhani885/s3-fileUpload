@@ -20,6 +20,7 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
 
 export const managerLoginDestroy = <ThrowOnError extends boolean = false>(options?: Options<ManagerLoginDestroyData, ThrowOnError>) => {
     return (options?.client ?? _heyApiClient).delete<ManagerLoginDestroyResponses, unknown, ThrowOnError>({
+        responseType: 'json',
         security: [
             {
                 in: 'cookie',
@@ -57,6 +58,10 @@ export const managerLoginCreate = <ThrowOnError extends boolean = false>(options
             }
         ],
         url: '/manager/login/',
-        ...options
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+        }
     });
 };

@@ -3,6 +3,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Form, FormProps, Input } from "antd";
 import { ArrowRight, BarChart3, Building2, Shield, Users2 } from "lucide-react";
 import { useState } from "react";
+import { LoginRequest } from "~/services/api";
 import { managerLoginCreateMutation } from "~/services/api/@tanstack/react-query.gen";
 
 export const Route = createFileRoute("/")({
@@ -15,9 +16,16 @@ type Login = {
 };
 
 function LoginComponent() {
-  const [login, setLogin] = useState<Login>({
-    email: "",
-    password: "",
+  const [loc, setLoc] = useState<LoginRequest>({
+    latitude: 0,
+    longitude: 0,
+  });
+  navigator.geolocation.getCurrentPosition((pos) => {
+    setLoc((prv) => ({
+      ...prv,
+      latitude: pos.coords.latitude,
+      longitude: pos.coords.longitude,
+    }));
   });
 
   const navigate = useNavigate();
@@ -25,10 +33,11 @@ function LoginComponent() {
   const loginmutation = useMutation(managerLoginCreateMutation());
 
   const onFinish: FormProps<Login>["onFinish"] = (values) => {
-    console.log("Success:", values);
     const token: string = btoa(values.email + ":" + values.password);
+
     loginmutation.mutate(
       {
+        body: loc,
         headers: {
           Authorization: `Basic ${token}`,
         },
