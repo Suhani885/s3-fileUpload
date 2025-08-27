@@ -6,6 +6,11 @@ export type Login = {
     email: string;
 };
 
+export type LoginRequest = {
+    longitude: number;
+    latitude: number;
+};
+
 export type ManagerLoginDestroyData = {
     body?: never;
     path?: never;
@@ -15,9 +20,11 @@ export type ManagerLoginDestroyData = {
 
 export type ManagerLoginDestroyResponses = {
     /**
-     * No response body
+     * Unspecified response body
      */
-    204: void;
+    200: {
+        [key: string]: unknown;
+    };
 };
 
 export type ManagerLoginDestroyResponse = ManagerLoginDestroyResponses[keyof ManagerLoginDestroyResponses];
@@ -36,7 +43,7 @@ export type ManagerLoginRetrieveResponses = {
 export type ManagerLoginRetrieveResponse = ManagerLoginRetrieveResponses[keyof ManagerLoginRetrieveResponses];
 
 export type ManagerLoginCreateData = {
-    body?: never;
+    body: LoginRequest;
     headers: {
         Authorization: string;
     };
