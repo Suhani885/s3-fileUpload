@@ -64,8 +64,15 @@ function LoginComponent() {
           console.log(data);
           navigate({ to: "/user" });
         },
-        onError: (data) => {
-          toast.error(data.message);
+        onError: (error) => {
+          if (error.status == 403) {
+            toast.error(error?.response?.data.detail)
+          } else {
+            toast.error(error?.response?.data.msg)
+
+          }
+
+          // toast.error(data.message);
         },
       }
     );
@@ -139,7 +146,8 @@ function LoginComponent() {
           <Form.Item label={null} className=" w-full">
             <button
               type="submit"
-              className="group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+              disabled={loginmutation.isPending ? true : false}
+              className={`group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled `}
             >
               Sign In
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
