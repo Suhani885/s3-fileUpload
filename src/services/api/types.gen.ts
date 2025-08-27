@@ -36,6 +36,22 @@ export type LoginActivitySessionError = {
     readonly msg: string;
 };
 
+export type LoginBadRequeset = {
+    readonly msg: string;
+};
+
+export type LoginConflict = {
+    readonly msg: string;
+};
+
+export type LoginForbidden = {
+    readonly details: string;
+};
+
+export type LoginOk = {
+    readonly msg: string;
+};
+
 export type LoginRequest = {
     longitude: number;
     latitude: number;
@@ -138,11 +154,18 @@ export type ManagerLoginCreateData = {
 };
 
 export type ManagerLoginCreateErrors = {
-    /**
-     * No response body
-     */
-    400: unknown;
+    400: LoginBadRequeset;
+    403: LoginForbidden;
+    409: LoginConflict;
 };
+
+export type ManagerLoginCreateError = ManagerLoginCreateErrors[keyof ManagerLoginCreateErrors];
+
+export type ManagerLoginCreateResponses = {
+    200: LoginOk;
+};
+
+export type ManagerLoginCreateResponse = ManagerLoginCreateResponses[keyof ManagerLoginCreateResponses];
 
 export type ManagerReportListData = {
     body?: never;

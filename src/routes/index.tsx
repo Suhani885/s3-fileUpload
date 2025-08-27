@@ -2,12 +2,17 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Form, FormProps, Input } from "antd";
 import { ArrowRight, BarChart3, Building2, Shield, Users2 } from "lucide-react";
-import { useState } from "react";
-import { LoginRequest } from "~/services/api";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { LoginRequest, managerLoginRetrieve } from "~/services/api";
 import { managerLoginCreateMutation } from "~/services/api/@tanstack/react-query.gen";
+import { useAuth } from "~/utils/Context/Auth";
 
 export const Route = createFileRoute("/")({
   component: LoginComponent,
+  loader: async ({ context }) => {
+    // console.log(context.isAuthenticated);
+  },
 });
 
 type Login = {
@@ -20,6 +25,8 @@ function LoginComponent() {
     latitude: 0,
     longitude: 0,
   });
+  const navigate = useNavigate();
+
   navigator.geolocation.getCurrentPosition((pos) => {
     setLoc((prv) => ({
       ...prv,
@@ -28,13 +35,23 @@ function LoginComponent() {
     }));
   });
 
-  const navigate = useNavigate();
-
+  const auth = useAuth();
   const loginmutation = useMutation(managerLoginCreateMutation());
+
+  const authFn = async () => {
+    const user = await managerLoginRetrieve();
+    if (user.status == 200) {
+      navigate({ to: "/user" });
+    }
+  };
+
+  useEffect(() => {
+    authFn();
+  }, []);
 
   const onFinish: FormProps<Login>["onFinish"] = (values) => {
     const token: string = btoa(values.email + ":" + values.password);
-
+    console.log(token);
     loginmutation.mutate(
       {
         body: loc,
@@ -44,7 +61,18 @@ function LoginComponent() {
       },
       {
         onSuccess: (data) => {
+          console.log(data);
           navigate({ to: "/user" });
+        },
+        onError: (error) => {
+          if (error.status == 403) {
+            toast.error(error?.response?.data.detail)
+          } else {
+            toast.error(error?.response?.data.msg)
+
+          }
+
+          // toast.error(data.message);
         },
       }
     );
@@ -53,8 +81,10 @@ function LoginComponent() {
   const onFinishFailed: FormProps<Login>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  // const auth = useAuth();
+  // if (auth?.isAuthenticated) return <Navigate to="/user" />;
   return (
-    <div className="h-screen w-full flex flex-row items-center justify-center  overflow-hidden">
+    <div className="h-screen w-full bg-white flex flex-row items-center justify-center  overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-indigo-50/30"></div>
       <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full -translate-x-16 -translate-y-16"></div>
       <div className="w-full md:w-1/3  flex flex-col p-10 gap-4 ">
@@ -116,7 +146,8 @@ function LoginComponent() {
           <Form.Item label={null} className=" w-full">
             <button
               type="submit"
-              className="group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl"
+              disabled={loginmutation.isPending ? true : false}
+              className={`group relative w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg hover:shadow-xl disabled `}
             >
               Sign In
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

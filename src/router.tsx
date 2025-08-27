@@ -13,6 +13,8 @@ export function createRouter() {
     scrollRestoration: true,
     context: {
       queryClient: queryClient,
+      isAuthenticated: false,
+      user: null,
     },
   });
 

@@ -2,7 +2,7 @@
 
 import { type Options, managerActivityDestroy, managerActivityRetrieve, managerActivityUpdate, managerLoginDestroy, managerLoginRetrieve, managerLoginCreate, managerReportList } from '../sdk.gen';
 import { type UseMutationOptions, queryOptions, type DefaultError } from '@tanstack/react-query';
-import type { ManagerActivityDestroyData, ManagerActivityDestroyError, ManagerActivityDestroyResponse, ManagerActivityRetrieveData, ManagerActivityUpdateData, ManagerActivityUpdateError, ManagerActivityUpdateResponse, ManagerLoginDestroyData, ManagerLoginDestroyResponse, ManagerLoginRetrieveData, ManagerLoginCreateData, ManagerReportListData } from '../types.gen';
+import type { ManagerActivityDestroyData, ManagerActivityDestroyError, ManagerActivityDestroyResponse, ManagerActivityRetrieveData, ManagerActivityUpdateData, ManagerActivityUpdateError, ManagerActivityUpdateResponse, ManagerLoginDestroyData, ManagerLoginDestroyResponse, ManagerLoginRetrieveData, ManagerLoginCreateData, ManagerLoginCreateError, ManagerLoginCreateResponse, ManagerReportListData } from '../types.gen';
 import type { AxiosError } from 'axios';
 import { client as _heyApiClient } from '../client.gen';
 
@@ -134,8 +134,8 @@ export const managerLoginCreateOptions = (options: Options<ManagerLoginCreateDat
     });
 };
 
-export const managerLoginCreateMutation = (options?: Partial<Options<ManagerLoginCreateData>>): UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ManagerLoginCreateData>> => {
-    const mutationOptions: UseMutationOptions<unknown, AxiosError<DefaultError>, Options<ManagerLoginCreateData>> = {
+export const managerLoginCreateMutation = (options?: Partial<Options<ManagerLoginCreateData>>): UseMutationOptions<ManagerLoginCreateResponse, AxiosError<ManagerLoginCreateError>, Options<ManagerLoginCreateData>> => {
+    const mutationOptions: UseMutationOptions<ManagerLoginCreateResponse, AxiosError<ManagerLoginCreateError>, Options<ManagerLoginCreateData>> = {
         mutationFn: async (localOptions) => {
             const { data } = await managerLoginCreate({
                 ...options,
