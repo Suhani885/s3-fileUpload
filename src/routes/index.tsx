@@ -1,8 +1,11 @@
+import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Form, FormProps, Input } from "antd";
 import { ArrowRight, BarChart3, Building2, Shield, Users2 } from "lucide-react";
-import { useState } from "react";
-import { LoginRequest } from "~/services/api";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { LoginRequest, managerLoginRetrieve } from "~/services/api";
+import { managerLoginCreateMutation } from "~/services/api/@tanstack/react-query.gen";
 import { useAuth } from "~/utils/Context/Auth";
 
 export const Route = createFileRoute("/")({
@@ -33,9 +36,39 @@ function LoginComponent() {
   });
 
   const auth = useAuth();
+  const loginmutation = useMutation(managerLoginCreateMutation());
+
+  const authFn = async () => {
+    const user = await managerLoginRetrieve();
+    if (user.status == 200) {
+      navigate({ to: "/user" });
+    }
+  };
+
+  useEffect(() => {
+    authFn();
+  }, []);
+
   const onFinish: FormProps<Login>["onFinish"] = (values) => {
     const token: string = btoa(values.email + ":" + values.password);
-    auth?.login(loc, token);
+    console.log(token);
+    loginmutation.mutate(
+      {
+        body: loc,
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          navigate({ to: "/user" });
+        },
+        onError: (data) => {
+          toast.error(data.message);
+        },
+      }
+    );
   };
 
   const onFinishFailed: FormProps<Login>["onFinishFailed"] = (errorInfo) => {

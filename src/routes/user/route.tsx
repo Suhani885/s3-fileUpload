@@ -1,7 +1,9 @@
-import { createFileRoute, Navigate, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { AppSidebar } from "~/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
-import { useAuth } from "~/utils/Context/Auth";
+import { managerLoginRetrieve } from "~/services/api";
+import { AuthProvider, useAuth } from "~/utils/Context/Auth";
 export const Route = createFileRoute("/user")({
   component: userComponent,
 });
@@ -9,17 +11,33 @@ export const Route = createFileRoute("/user")({
 function userComponent() {
   const user = useAuth();
 
-  if (!user?.isAuthenticated) return <Navigate to="/" />;
+  const navigate = useNavigate();
+  const auth = async () => {
+    const user = await managerLoginRetrieve();
+    if (user.status != 200) {
+      navigate({ to: "/" });
+    }
+  };
+
+  useEffect(() => {
+    auth();
+  }, []);
+  // if (user?.isAuthenticated) {
+  //   console.log(user.isAuthenticated);
+  // }
+
+  // if (!user?.user) return <Navigate to="/" />;
 
   return (
     // navbar and authentication here
-
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="flex w-screen bg-black">
-        <SidebarTrigger />
-        <Outlet />
-      </main>
-    </SidebarProvider>
+    <AuthProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="flex w-screen bg-black">
+          <SidebarTrigger />
+          <Outlet />
+        </main>
+      </SidebarProvider>
+    </AuthProvider>
   );
 }
