@@ -1,13 +1,15 @@
-import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Form, FormProps, Input } from "antd";
 import { ArrowRight, BarChart3, Building2, Shield, Users2 } from "lucide-react";
 import { useState } from "react";
 import { LoginRequest } from "~/services/api";
-import { managerLoginCreateMutation } from "~/services/api/@tanstack/react-query.gen";
+import { useAuth } from "~/utils/Context/Auth";
 
 export const Route = createFileRoute("/")({
   component: LoginComponent,
+  loader: async ({ context }) => {
+    // console.log(context.isAuthenticated);
+  },
 });
 
 type Login = {
@@ -20,6 +22,8 @@ function LoginComponent() {
     latitude: 0,
     longitude: 0,
   });
+  const navigate = useNavigate();
+
   navigator.geolocation.getCurrentPosition((pos) => {
     setLoc((prv) => ({
       ...prv,
@@ -28,33 +32,19 @@ function LoginComponent() {
     }));
   });
 
-  const navigate = useNavigate();
-
-  const loginmutation = useMutation(managerLoginCreateMutation());
-
+  const auth = useAuth();
   const onFinish: FormProps<Login>["onFinish"] = (values) => {
     const token: string = btoa(values.email + ":" + values.password);
-
-    loginmutation.mutate(
-      {
-        body: loc,
-        headers: {
-          Authorization: `Basic ${token}`,
-        },
-      },
-      {
-        onSuccess: (data) => {
-          navigate({ to: "/user" });
-        },
-      }
-    );
+    auth?.login(loc, token);
   };
 
   const onFinishFailed: FormProps<Login>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
+  // const auth = useAuth();
+  // if (auth?.isAuthenticated) return <Navigate to="/user" />;
   return (
-    <div className="h-screen w-full flex flex-row items-center justify-center  overflow-hidden">
+    <div className="h-screen w-full bg-white flex flex-row items-center justify-center  overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-indigo-50/30"></div>
       <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-blue-200/20 to-purple-200/20 rounded-full -translate-x-16 -translate-y-16"></div>
       <div className="w-full md:w-1/3  flex flex-col p-10 gap-4 ">

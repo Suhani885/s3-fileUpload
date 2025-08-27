@@ -17,7 +17,6 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { ConfigProvider } from "antd";
 import { AuthProvider } from "~/utils/Context/Auth";
 import { queryClient } from "~/utils/QueryClient";
-import Authentication from "~/utils/serverfunction/Authentication";
 import { MyRouterContext } from "~/utils/types";
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
@@ -67,7 +66,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
   errorComponent: DefaultCatchBoundary,
   notFoundComponent: () => <NotFound />,
-  beforeLoad: async () => Authentication(),
 });
 
 function RootComponent() {
