@@ -100,9 +100,7 @@ function RootComponent() {
         }}
       >
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <Outlet />
-          </AuthProvider>
+          <Outlet />
         </QueryClientProvider>
       </ConfigProvider>
     </RootDocument>
